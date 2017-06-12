@@ -1,8 +1,8 @@
-# Ubuntu 13.10 (Quantal) Ansible Test Image
+# Ubuntu 13.10 (Saucy) Ansible Test Image
 
 [![Docker Automated build](https://img.shields.io/docker/automated/fubarhouse/docker-ubuntu1310-ansible.svg?maxAge=2592000)](https://hub.docker.com/r/fubarhouse/docker-ubuntu1310-ansible/)
 
-Ubuntu 13.10 (Quantal) Docker container for Ansible playbook and role testing.
+Ubuntu 13.10 (Saucy) Docker container for Ansible playbook and role testing.
 
 ## How to Build
 
