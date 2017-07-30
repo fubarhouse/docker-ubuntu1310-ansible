@@ -10,7 +10,7 @@ RUN apt-get update \
        python-pip make git \
        python python-yaml python-paramiko python-jinja2 python-httplib2 \
        python-software-properties software-properties-common \
-       rsyslog sudo openssl=0.9.8k \
+       rsyslog sudo openssl=0.9.8 \
     && rm -Rf /var/lib/apt/lists/* \
     && rm -Rf /usr/share/doc && rm -Rf /usr/share/man \
     && apt-get clean
