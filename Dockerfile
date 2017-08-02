@@ -28,7 +28,11 @@ RUN wget https://www.python.org/ftp/python/2.7.13/Python-2.7.13.tgz \
     && rm -f ../Python-2.7.13.tgz
 
 # Install Ansible
-RUN pip install urllib3 pyOpenSSL ndg-httpsclient pyasn1 ansible cryptography
+RUN git clone https://github.com/ansible/ansible.git --recursive ~/ansible \
+    && cd ~/ansible \
+    && make \
+    && make install \
+    && which ansible
 
 COPY initctl_faker .
 RUN chmod +x initctl_faker && rm -fr /sbin/initctl && ln -s /initctl_faker /sbin/initctl
