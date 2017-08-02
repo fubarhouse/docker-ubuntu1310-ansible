@@ -10,7 +10,7 @@ RUN apt-get update \
        python-pip make git curl \
        python python-yaml python-paramiko python-jinja2 python-httplib2 \
        python-software-properties software-properties-common \
-       rsyslog sudo libssl0.9.8 \
+       rsyslog sudo wget \
     && rm -Rf /var/lib/apt/lists/* \
     && rm -Rf /usr/share/doc && rm -Rf /usr/share/man \
     && apt-get clean
@@ -18,17 +18,24 @@ RUN pip install setuptools
 RUN sed -i 's/^\($ModLoad imklog\)/#\1/' /etc/rsyslog.conf
 #ADD etc/rsyslog.d/50-default.conf /etc/rsyslog.d/50-default.conf
 
+# Upgrade python
+RUN wget https://www.python.org/ftp/python/2.7.13/Python-2.7.13.tgz \
+    && tar zxf ./Python-2.7.13.tgz \
+    && cd Python-2.7.13 \
+    && ./configure \
+    && make \
+    && make install \
+    && rm -f ../Python-2.7.13.tgz
+
 # Install Ansible
-RUN add-apt-repository -y ppa:ansible/ansible \
-  && apt-get update \
-  && apt-get install -y --no-install-recommends \
-     ansible \
-  && rm -rf /var/lib/apt/lists/* \
-  && rm -Rf /usr/share/doc && rm -Rf /usr/share/man \
-  && apt-get clean
+RUN pip install urllib3 pyOpenSSL ndg-httpsclient pyasn1 ansible cryptography
 
 COPY initctl_faker .
 RUN chmod +x initctl_faker && rm -fr /sbin/initctl && ln -s /initctl_faker /sbin/initctl
 
 # Install Ansible inventory file
 RUN echo "[local]\nlocalhost ansible_connection=local" > /etc/ansible/hosts
+
+# Report some information
+RUN python --version
+RUN ansible --version
