@@ -27,11 +27,13 @@ RUN wget https://www.python.org/ftp/python/2.7.13/Python-2.7.13.tgz \
     && rm -f ../Python-2.7.13.tgz
 
 # Install Ansible
-RUN git clone https://github.com/ansible/ansible.git --recursive ~/ansible \
-    && cd ~/ansible \
-    && make \
-    && make install \
-    && which ansible
+RUN add-apt-repository -y ppa:ansible/ansible \
+  && apt-get update \
+  && apt-get install -y --no-install-recommends \
+     ansible \
+  && rm -rf /var/lib/apt/lists/* \
+  && rm -Rf /usr/share/doc && rm -Rf /usr/share/man \
+  && apt-get clean
 
 COPY initctl_faker .
 RUN chmod +x initctl_faker && rm -fr /sbin/initctl && ln -s /initctl_faker /sbin/initctl
