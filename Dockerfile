@@ -30,7 +30,7 @@ RUN wget https://www.python.org/ftp/python/2.7.13/Python-2.7.13.tgz \
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
        build-essential libffi-dev libssl-dev python-pip python-dev \
-       zlib1g-dev libncurses5-dev systemd python-setuptools \
+       zlib1g-dev libncurses5-dev systemd-services python-setuptools \
     && rm -rf /var/lib/apt/lists/* \
     && rm -Rf /usr/share/doc && rm -Rf /usr/share/man \
     && apt-get clean
