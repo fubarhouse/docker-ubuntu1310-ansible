@@ -26,14 +26,17 @@ RUN wget https://www.python.org/ftp/python/2.7.13/Python-2.7.13.tgz \
     && make install \
     && rm -f ../Python-2.7.13.tgz
 
-# Install Ansible
-RUN add-apt-repository -y ppa:ansible/ansible \
-  && apt-get update \
-  && apt-get install -y --no-install-recommends \
-     ansible \
-  && rm -rf /var/lib/apt/lists/* \
-  && rm -Rf /usr/share/doc && rm -Rf /usr/share/man \
-  && apt-get clean
+# Install Ansible via pip.
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+       build-essential libffi-dev libssl-dev python-pip python-dev \
+       zlib1g-dev libncurses5-dev systemd python-setuptools \
+    && rm -rf /var/lib/apt/lists/* \
+    && rm -Rf /usr/share/doc && rm -Rf /usr/share/man \
+    && apt-get clean
+RUN pip install urllib3 pyOpenSSL ndg-httpsclient pyasn1 cryptography
+RUN pip install --upgrade pip virtualenv virtualenvwrapper
+RUN pip install ansible==2.1
 
 COPY initctl_faker .
 RUN chmod +x initctl_faker && rm -fr /sbin/initctl && ln -s /initctl_faker /sbin/initctl
