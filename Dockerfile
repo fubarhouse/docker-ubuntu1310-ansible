@@ -17,6 +17,9 @@ RUN apt-get update \
 RUN sed -i 's/^\($ModLoad imklog\)/#\1/' /etc/rsyslog.conf
 #ADD etc/rsyslog.d/50-default.conf /etc/rsyslog.d/50-default.conf
 
+# git-core PPA
+RUN add-apt-repository ppa:git-core/ppa
+
 # Upgrade python
 RUN wget https://www.python.org/ftp/python/2.7.13/Python-2.7.13.tgz \
     && tar zxf ./Python-2.7.13.tgz \
