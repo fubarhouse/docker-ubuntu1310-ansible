@@ -7,13 +7,16 @@ RUN sed -i.bak -r 's/(archive|security).ubuntu.com/old-releases.ubuntu.com/g' /e
 # Install dependencies.
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-       python-dev python-setuptools python-pip make make git curl \
+       python-pip make git curl \
        python python-yaml python-paramiko python-jinja2 python-httplib2 \
        python-software-properties software-properties-common \
-       rsyslog gcc sudo build-essential wget \
+       rsyslog sudo build-essential gcc rsync openssh-server openssl \
+       python-dev libssl-dev libffi-dev \
     && rm -Rf /var/lib/apt/lists/* \
     && rm -Rf /usr/share/doc && rm -Rf /usr/share/man \
     && apt-get clean
+RUN pip install setuptools
+RUN pip install pyopenssl==0.13.1 pyasn1 ndg-httpsclient
 RUN sed -i 's/^\($ModLoad imklog\)/#\1/' /etc/rsyslog.conf
 #ADD etc/rsyslog.d/50-default.conf /etc/rsyslog.d/50-default.conf
 
@@ -29,17 +32,12 @@ RUN wget https://www.python.org/ftp/python/2.7.13/Python-2.7.13.tgz \
     && make install \
     && rm -f ../Python-2.7.13.tgz
 
-# Install Ansible via pip.
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-       build-essential libffi-dev libssl-dev python-pip python-dev \
-       zlib1g-dev libncurses5-dev systemd-services python-setuptools \
-    && rm -rf /var/lib/apt/lists/* \
-    && rm -Rf /usr/share/doc && rm -Rf /usr/share/man \
-    && apt-get clean
-RUN pip install urllib3 pyOpenSSL ndg-httpsclient pyasn1 cryptography
-RUN pip install --upgrade pip virtualenv virtualenvwrapper
-RUN pip install ansible==2.1
+# Install Ansible
+RUN git clone https://github.com/ansible/ansible.git --recursive ~/ansible \
+    && cd ~/ansible \
+    && make \
+    && make install \
+    && which ansible
 
 COPY initctl_faker .
 RUN chmod +x initctl_faker && rm -fr /sbin/initctl && ln -s /initctl_faker /sbin/initctl
