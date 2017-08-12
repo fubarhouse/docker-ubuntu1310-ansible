@@ -39,7 +39,7 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/* \
     && rm -Rf /usr/share/doc && rm -Rf /usr/share/man \
     && apt-get clean
- RUN pip install urllib3cryptography
+ RUN pip install urllib3 cryptography
  RUN pip install --upgrade pip virtualenv virtualenvwrapper
  RUN pip install ansible==2.3
 
