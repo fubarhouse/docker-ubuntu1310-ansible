@@ -33,11 +33,15 @@ RUN wget https://www.python.org/ftp/python/2.7.13/Python-2.7.13.tgz \
     && rm -f ../Python-2.7.13.tgz
 
 # Install Ansible
-RUN git clone https://github.com/ansible/ansible.git --recursive ~/ansible \
-    && cd ~/ansible \
-    && make \
-    && make install \
-    && which ansible
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+       zlib1g-dev libncurses5-dev systemd-services \
+    && rm -rf /var/lib/apt/lists/* \
+    && rm -Rf /usr/share/doc && rm -Rf /usr/share/man \
+    && apt-get clean
+ RUN pip install urllib3cryptography
+ RUN pip install --upgrade pip virtualenv virtualenvwrapper
+ RUN pip install ansible==2.3
 
 COPY initctl_faker .
 RUN chmod +x initctl_faker && rm -fr /sbin/initctl && ln -s /initctl_faker /sbin/initctl
