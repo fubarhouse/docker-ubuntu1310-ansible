@@ -11,7 +11,7 @@ RUN apt-get update \
        python python-yaml python-paramiko python-jinja2 python-httplib2 \
        python-software-properties software-properties-common \
        rsyslog sudo build-essential gcc rsync openssh-server openssl \
-       python-dev libssl-dev libffi-dev \
+       python-dev python-setuptools libssl-dev libffi-dev \
     && rm -Rf /var/lib/apt/lists/* \
     && rm -Rf /usr/share/doc && rm -Rf /usr/share/man \
     && apt-get clean
