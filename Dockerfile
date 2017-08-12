@@ -7,7 +7,7 @@ RUN sed -i.bak -r 's/(archive|security).ubuntu.com/old-releases.ubuntu.com/g' /e
 # Install dependencies.
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-       python-pip make git curl \
+       python-pip make git curl wget \
        python python-yaml python-paramiko python-jinja2 python-httplib2 \
        python-software-properties software-properties-common \
        rsyslog sudo build-essential gcc rsync openssh-server openssl \
