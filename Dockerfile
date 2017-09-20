@@ -10,7 +10,7 @@ RUN apt-get update \
        python-pip make git curl wget \
        python python-yaml python-paramiko python-jinja2 python-httplib2 \
        python-software-properties software-properties-common \
-       rsyslog sudo build-essential gcc rsync openssh-server openssl \
+       rsyslog sudo build-essential gcc libc-dev rsync openssh-server openssl \
        python-dev python-setuptools libssl-dev libffi-dev \
     && rm -Rf /var/lib/apt/lists/* \
     && rm -Rf /usr/share/doc && rm -Rf /usr/share/man \
